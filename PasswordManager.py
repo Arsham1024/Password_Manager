@@ -1,21 +1,32 @@
 from cryptography.fernet import Fernet
 
 
-master_pwd = input("Enter the master password: ")
+
+'''
 def write_key():
     key = Fernet.generate_key()
     # WB = write in bites
     # fernet generates a key in keyfile.
     with open("key.key", "wb") as key_file:
         key_file.write(key)
+'''
 
-write_key()
+def load_key():
+    file = open("key.key", "rb")
+    key = file.read()
+    file.close()
+    return key
+
+
+master_pwd = input("Enter the master password: ")
+key = load_key() + master_pwd.encode()
+fer = Fernet(key)
 
 def view():
     print("Here are the passwords:")
     with open("passwords.txt", "r") as r:
         for line in r:
-            print("" + line.rstrip())
+            print("" + str(fer.decrypt(passw.encode())))
     print()
 
 def add():
@@ -23,7 +34,7 @@ def add():
     pwd = input("password: ")
 
     with open("passwords.txt", 'a') as f:
-        f.write(name + "|" + pwd + "\n")
+        f.write(name + "|" + str(fer.encrypt(pwd.encode())) + "\n")
     print()
 
 while True:
