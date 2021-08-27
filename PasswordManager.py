@@ -2,6 +2,14 @@ from cryptography.fernet import Fernet
 
 
 master_pwd = input("Enter the master password: ")
+def write_key():
+    key = Fernet.generate_key()
+    # WB = write in bites
+    # fernet generates a key in keyfile.
+    with open("key.key", "wb") as key_file:
+        key_file.write(key)
+
+write_key()
 
 def view():
     print("Here are the passwords:")
